@@ -6,38 +6,46 @@ import time
 st.set_page_config(page_title="🎰 EuroGenius", layout="centered")
 st.markdown(eurogenius_css(), unsafe_allow_html=True)
 
-# Big Intro Style
-st.markdown("## 🎯 Willkommen bei **EuroGenius** – Deine smarte Lotto-Reise")
-st.markdown("### 🧠 Statistik. 🎰 Gefühl. 🤖 KI. Alles in einer App.")
-st.markdown("---")
+# Sound-Effekt beim Starten
+st.audio("https://www.myinstants.com/media/sounds/casino-slot-machine.mp3", autoplay=True)
 
-# Visual impact
-st.markdown("<div style='font-size:80px; text-align:center;'>💎🎲🔮</div>", unsafe_allow_html=True)
+# Branding-Header
+st.markdown("## 💎 Willkommen bei **EuroGenius**")
+st.markdown("### Die einzige Lotto-App mit Strategie + Gefühl")
+st.markdown("<div style='font-size:60px; text-align:center;'>🎯🎲🔮</div>", unsafe_allow_html=True)
 
-st.markdown("#### Starte deine Reise und wähle deinen Spielmodus:")
-col1, col2, col3 = st.columns(3)
+# Spielmodus-Buttons mit Animationseffekt
+st.markdown("#### Wähle deinen Modus:")
 
-with col1:
-    if st.button("🔥 Intuition"):
+step = st.radio("Dein Spielweg", ["🎲 Intuition", "📊 Statistik", "🤖 KI"], horizontal=True)
+
+if step == "🎲 Intuition":
+    st.markdown("##### 🔥 Folge deinem Bauchgefühl – wähle heiße Zahlen")
+    if st.button("💡 Intuitiv starten"):
+        st.success("🎉 Strategie geladen... viel Glück!")
+        time.sleep(1)
         st.switch_page("pages/strategie.py")
 
-with col2:
-    if st.button("📊 Statistik"):
+elif step == "📊 Statistik":
+    st.markdown("##### 📈 Nutze Ziehungsdaten für deine Analyse")
+    if st.button("📂 Statistik ansehen"):
+        st.success("📊 Statistiken bereit!")
+        time.sleep(1)
         st.switch_page("pages/meine_strategien.py")
 
-with col3:
-    if st.button("🤖 KI"):
+elif step == "🤖 KI":
+    st.markdown("##### 🧠 Lass unsere KI deinen besten Tipp finden")
+    if st.button("🤖 KI aktivieren"):
+        st.success("🧠 KI denkt...")
+        time.sleep(2)
         st.switch_page("pages/dashboard_demo.py")
 
-st.markdown("---")
-st.markdown("#### 💌 Tipp: Erstelle ein Profil und sichere deine Strategien!")
-st.markdown("➡️ Login über die Sidebar")
-
-# Optional: animiertes Fortschrittsgefühl
-st.markdown("##### ⏳ Lade deine Glücksfrequenz...")
+# Ladeeffekt-Animation
+st.markdown("##### ⏳ Glücksenergie wird geladen...")
 progress = st.progress(0)
 for i in range(100):
-    time.sleep(0.007)
+    time.sleep(0.004)
     progress.progress(i + 1)
 
-st.success("🎉 Bereit! Dein Weg zum Millionen-Code beginnt jetzt.")
+st.markdown("---")
+st.info("🔐 Tipp: Logge dich ein, um Strategien zu speichern & Premium zu nutzen")
