@@ -3,49 +3,54 @@ import streamlit as st
 from custom_style import eurogenius_css
 import time
 
-st.set_page_config(page_title="🎰 EuroGenius", layout="centered")
+st.set_page_config(page_title="💎 EuroGenius Deluxe", layout="centered")
 st.markdown(eurogenius_css(), unsafe_allow_html=True)
 
-# Sound-Effekt beim Starten
-st.audio("https://www.myinstants.com/media/sounds/casino-slot-machine.mp3", autoplay=True)
+st.markdown("## 💎 Willkommen bei **EuroGenius Deluxe**")
+st.markdown("### 🎰 Deine Lotto-Welt mit KI, Statistik und Intuition")
 
-# Branding-Header
-st.markdown("## 💎 Willkommen bei **EuroGenius**")
-st.markdown("### Die einzige Lotto-App mit Strategie + Gefühl")
-st.markdown("<div style='font-size:60px; text-align:center;'>🎯🎲🔮</div>", unsafe_allow_html=True)
+# Theme Header mit Icons
+st.markdown("<div style='text-align:center; font-size:70px;'>🎲🎯🧠</div>", unsafe_allow_html=True)
+st.markdown("---")
 
-# Spielmodus-Buttons mit Animationseffekt
-st.markdown("#### Wähle deinen Modus:")
+# Fortschrittsanzeige symbolisch
+st.markdown("#### 🚀 Fortschritt")
+st.progress(0.6)
+st.info("🧩 Bronze-Level: 3 Strategien gespeichert")
 
-step = st.radio("Dein Spielweg", ["🎲 Intuition", "📊 Statistik", "🤖 KI"], horizontal=True)
+# Strategie-Flow-Auswahl
+st.markdown("### 🧠 Wähle deinen Spielmodus")
+option = st.radio("Spielart wählen", ["🔥 Intuition", "📊 Statistik", "🤖 KI"], horizontal=True)
 
-if step == "🎲 Intuition":
-    st.markdown("##### 🔥 Folge deinem Bauchgefühl – wähle heiße Zahlen")
-    if st.button("💡 Intuitiv starten"):
-        st.success("🎉 Strategie geladen... viel Glück!")
+if option == "🔥 Intuition":
+    st.markdown("💡 Lass dein Gefühl entscheiden – starte mit heißen Zahlen")
+    if st.button("🎯 Jetzt starten"):
+        st.success("🎉 Viel Glück! Deine Strategie wird geladen...")
         time.sleep(1)
         st.switch_page("pages/strategie.py")
 
-elif step == "📊 Statistik":
-    st.markdown("##### 📈 Nutze Ziehungsdaten für deine Analyse")
-    if st.button("📂 Statistik ansehen"):
-        st.success("📊 Statistiken bereit!")
+elif option == "📊 Statistik":
+    st.markdown("📈 Nutze Daten und Ziehungsstatistiken für deine Tipps")
+    if st.button("📊 Daten entdecken"):
+        st.success("📂 Strategien werden geladen...")
         time.sleep(1)
         st.switch_page("pages/meine_strategien.py")
 
-elif step == "🤖 KI":
-    st.markdown("##### 🧠 Lass unsere KI deinen besten Tipp finden")
-    if st.button("🤖 KI aktivieren"):
-        st.success("🧠 KI denkt...")
+elif option == "🤖 KI":
+    st.markdown("🤖 Unsere KI analysiert Millionen von Ziehungen für deinen Tipp")
+    if st.button("🧠 KI aktivieren"):
+        st.success("🔎 Die KI denkt...")
         time.sleep(2)
         st.switch_page("pages/dashboard_demo.py")
 
-# Ladeeffekt-Animation
-st.markdown("##### ⏳ Glücksenergie wird geladen...")
-progress = st.progress(0)
-for i in range(100):
-    time.sleep(0.004)
-    progress.progress(i + 1)
-
 st.markdown("---")
-st.info("🔐 Tipp: Logge dich ein, um Strategien zu speichern & Premium zu nutzen")
+
+# Belohnungsinfo / Badges
+st.markdown("#### 🎖️ Deine Belohnungen")
+st.markdown("🔓 Bronze Badge: ✅ 3 Strategien gespeichert")
+st.markdown("🔒 Silber Badge: ❌ 10 Strategien erforderlich")
+st.markdown("🔒 Gold Badge: ❌ 30 Strategien erforderlich")
+
+# Tipp: Login sichtbar
+st.markdown("---")
+st.warning("🔐 Logge dich ein, um deinen Fortschritt zu speichern & Premium-Funktionen zu nutzen!")
