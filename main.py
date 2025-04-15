@@ -1,10 +1,3 @@
-import streamlit as st
-st.markdown("""
-🎉 **Entdecke dein Lotto-Glück mit EuroGenius Deluxe!**  
-🚀 Statistische Power, KI-Strategien und dein Bauchgefühl in einer App.  
-💎 Wähle deinen Stil – spiele wie ein Profi und knacke den Jackpot!
-""")
-
 
 import streamlit as st
 from custom_style import eurogenius_css
