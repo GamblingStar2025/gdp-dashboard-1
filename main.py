@@ -11,7 +11,9 @@ st.markdown("### 🎰 Deine Lotto-Welt mit KI, Statistik und Intuition")
 
 # Theme Header mit Icons
 st.markdown("<div style='text-align:center; font-size:70px;'>🎲🎯🧠</div>", unsafe_allow_html=True)
-st.markdown("---")
+st.markdown("🎉 Entdecke dein Lotto-Glück mit EuroGenius Deluxe!
+             🚀 Statistische Power, KI-Strategien und dein Bauchgefühl in einer App.
+             💎 Wähle deinen Stil – spiele wie ein Profi und knacke den Jackpot!")
 
 # Fortschrittsanzeige symbolisch
 st.markdown("#### 🚀 Fortschritt")
