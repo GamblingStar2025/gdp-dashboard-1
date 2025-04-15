@@ -1,46 +1,53 @@
 
 import streamlit as st
-from st_supabase_connection import SupabaseConnection
-from custom_style import eurogenius_css
+from supabase_client import get_authenticated_client as get_client
 
-st.set_page_config(page_title="Login / Registrierung", layout="centered")
-st.markdown(eurogenius_css(), unsafe_allow_html=True)
-st.title("🔐 EuroGenius – Login & Registrierung")
+st.set_page_config(page_title="Login", layout="centered")
+st.title("🔐 Login")
 
-conn = st.connection("supabase", type=SupabaseConnection)
-supabase = conn.client
+rolle = st.radio("Login als:", ["gast", "premium"], horizontal=True)
 
-mode = st.radio("🔄 Modus wählen", ["🔓 Login", "📝 Registrieren"])
+if rolle == "gast":
+    st.subheader("🔓 Gastzugang")
+    email = st.text_input("E-Mail (nur für Gastzugang)")
+    if st.button("📩 Bestätigungslink senden (Demo)"):
+        if "@" in email and "." in email:
+            st.success(f"✅ Eine Bestätigungsmail wurde an {email} *simuliert* gesendet.")
+            st.session_state["is_logged_in"] = True
+            st.session_state["user_email"] = email
+            st.session_state["rolle"] = "gast"
+            if st.button("➡️ Weiter zur App"):
+                st.switch_page("pages/main_app.py")
+        else:
+            st.error("❌ Bitte eine gültige E-Mail-Adresse eingeben.")
 
-email = st.text_input("📧 E-Mail")
-pw = st.text_input("🔑 Passwort", type="password")
-
-if mode == "🔓 Login":
-    if st.button("➡️ Login"):
-        try:
-            auth_response = supabase.auth.sign_in_with_password({"email": email, "password": pw})
-            user = auth_response.user
-            if user:
-                st.success(f"✅ Eingeloggt als {user.email}")
+elif rolle == "premium":
+    st.subheader("💎 Premiumzugang (mit Supabase Auth)")
+    email = st.text_input("E-Mail")
+    password = st.text_input("Passwort", type="password")
+    if st.button("🔐 Einloggen"):
+        if "@" in email and len(password) >= 4:
+            try:
+                supabase = get_client()
+                result = supabase.auth.sign_in_with_password({ "email": email, "password": password })
+                st.success("✅ Login erfolgreich über Supabase.")
                 st.session_state["is_logged_in"] = True
-                st.session_state["user_email"] = user.email
-                st.rerun()
-        except Exception as e:
-            st.error("❌ Login fehlgeschlagen: " + str(e))
+                st.session_state["user_email"] = email
+                st.session_state["rolle"] = "premium"
+                if st.button("➡️ Weiter zur App"):
+                    st.switch_page("pages/main_app.py")
+            except Exception as e:
+                st.error(f"❌ Supabase Login fehlgeschlagen: {e}")
+        else:
+            st.error("❌ Bitte gültige E-Mail und Passwort eingeben.")
 
-elif mode == "📝 Registrieren":
-    if st.button("🚀 Registrierung abschicken"):
-        try:
-            response = supabase.auth.sign_up({"email": email, "password": pw})
-            if response.user:
-                st.success("✅ Registrierung erfolgreich! Bitte E-Mail bestätigen.")
-            else:
-                st.warning("⚠️ Anmeldung hat nicht funktioniert.")
-        except Exception as e:
-            st.error("❌ Registrierung fehlgeschlagen: " + str(e))
-
-if st.session_state.get("is_logged_in"):
-    st.markdown(f"👤 Eingeloggt als: `{st.session_state['user_email']}`")
-    if st.button("🚪 Logout"):
-        st.session_state.clear()
-        st.rerun()
+st.markdown("---")
+st.subheader("✨ Alternativ: Magic-Link-Login (ohne Passwort)")
+magic_email = st.text_input("Magic-Link E-Mail")
+if st.button("🚀 Magic-Link senden"):
+    try:
+        supabase = get_client()
+        supabase.auth.sign_in_with_otp({ "email": magic_email })
+        st.success("📩 Magic-Link wurde gesendet – bitte E-Mail prüfen.")
+    except Exception as e:
+        st.error(f"❌ Fehler beim Senden des Magic-Links: {e}")
